@@ -1946,6 +1946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7188200488084746886}
   - component: {fileID: 7105455813799733552}
+  - component: {fileID: 3271399526369955080}
   - component: {fileID: 4042518067219552093}
   - component: {fileID: 7132141579421698100}
   - component: {fileID: 2861412348073505420}
@@ -1998,6 +1999,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!143 &3271399526369955080
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7191376370365979586}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.8
+  m_Radius: 0.25
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.915, z: 0}
 --- !u!114 &4042518067219552093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2010,7 +2029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2012482872
+  GlobalObjectIdHash: 3331228952
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
