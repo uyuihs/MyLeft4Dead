@@ -10,9 +10,12 @@ public class PlayerSetup : NetworkBehaviour
 
     public event EventHandler OnPlayerCameraSetup;
 
+    private PlayerInputManager playerInputManager;
+
     private void Awake()
     {
-        components.Add(GetComponent<PlayerInputManager>());
+        playerInputManager = GetComponent<PlayerInputManager>();
+        components.Add(playerInputManager);
         components.Add(GetComponent<PlayerInput>());
     }
 
@@ -36,5 +39,15 @@ public class PlayerSetup : NetworkBehaviour
         {
             component.enabled = false;
         }
+    }
+
+    private void OnEnable()
+    {
+        playerInputManager.InitInputSystem(); 
+    }
+
+    private void OnDisable()
+    {
+        playerInputManager.CleanupInputSystem();
     }
 }

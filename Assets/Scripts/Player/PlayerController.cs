@@ -36,7 +36,6 @@ public class PlayerController : NetworkBehaviour
     private GameObject mainCamera;
     private Animator animator;
 
-
     private void Awake()
     {
         input = GetComponent<PlayerInputManager>();
@@ -117,7 +116,7 @@ public class PlayerController : NetworkBehaviour
     [ClientRpc]
     private void PlayeAnimationOnClientRpc(float animationBlend)
     {
-        animator.SetFloat("moveSpeed", animationBlend);
+        animator.SetFloat("moveSpeed", animationBlend, 0.2f, Time.deltaTime);
         
     }
     private void Rotate()

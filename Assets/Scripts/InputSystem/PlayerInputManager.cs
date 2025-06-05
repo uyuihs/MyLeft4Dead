@@ -19,86 +19,146 @@ public class PlayerInputManager : NetworkBehaviour
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
 
-    public void OnMove(InputValue value)
+    private InputController inputActions;
+
+    public void InitInputSystem()
     {
-        MoveInput(value.Get<Vector2>());
+        // 确保只初始化一次
+        if (inputActions != null) return;
+        
+        Debug.Log("Initializing Input System");
+        
+        // 创建输入控制器实例
+        inputActions = new InputController();
+        
+        // 注册移动输入回调
+        inputActions.Player.Move.performed += OnMovePerformed;
+        inputActions.Player.Move.canceled += OnMoveCanceled;
+        
+        // 注册视角输入回调
+        inputActions.Player.Look.performed += OnLookPerformed;
+        inputActions.Player.Look.canceled += OnLookCanceled;
+        
+        // 注册跳跃输入回调
+        inputActions.Player.Jump.performed += OnJumpPerformed;
+        inputActions.Player.Jump.canceled += OnJumpCanceled;
+        
+        // 注册射击输入回调
+        inputActions.Player.Shoot.performed += OnShootPerformed;
+        inputActions.Player.Shoot.canceled += OnShootCanceled;
+        
+        // 注册冲刺输入回调
+        inputActions.Player.Sprint.performed += OnSprintPerformed;
+        inputActions.Player.Sprint.canceled += OnSprintCanceled;
+        
+        // 注册主武器切换回调
+        inputActions.Player.PrimaryWeapon.performed += OnPrimaryWeaponPerformed;
+        
+        // 注册副武器切换回调
+        inputActions.Player.SecondaryWeapon.performed += OnSecondaryWeaponPerformed;
+        
+        // 启用输入系统
+        inputActions.Enable();
+        
+        Debug.Log("Input System Initialized");
     }
 
-    public void OnLook(InputValue value)
+    // 统一的输入系统清理方法
+    public void CleanupInputSystem()
     {
-        if (cursorInputForLook)
-        {
-            LookInput(value.Get<Vector2>());
-        }
+        if (inputActions == null) return;
+        
+        Debug.Log("Cleaning up Input System");
+        
+        // 取消所有回调注册
+        inputActions.Player.Move.performed -= OnMovePerformed;
+        inputActions.Player.Move.canceled -= OnMoveCanceled;
+        
+        inputActions.Player.Look.performed -= OnLookPerformed;
+        inputActions.Player.Look.canceled -= OnLookCanceled;
+        
+        inputActions.Player.Jump.performed -= OnJumpPerformed;
+        inputActions.Player.Jump.canceled -= OnJumpCanceled;
+        
+        inputActions.Player.Shoot.performed -= OnShootPerformed;
+        inputActions.Player.Shoot.canceled -= OnShootCanceled;
+        
+        inputActions.Player.Sprint.performed -= OnSprintPerformed;
+        inputActions.Player.Sprint.canceled -= OnSprintCanceled;
+        
+        inputActions.Player.PrimaryWeapon.performed -= OnPrimaryWeaponPerformed;
+        inputActions.Player.SecondaryWeapon.performed -= OnSecondaryWeaponPerformed;
+        
+        // 禁用输入系统
+        inputActions.Disable();
+        inputActions = null;
+        
+        Debug.Log("Input System Cleaned up");
     }
 
-    public void OnJump(InputValue value)
+    #region 输入回调处理函数
+
+    private void OnMovePerformed(InputAction.CallbackContext ctx)
     {
-        JumpInput(value.isPressed);
+        move = ctx.ReadValue<Vector2>();
     }
 
-    public void OnShoot(InputValue value)
+    private void OnMoveCanceled(InputAction.CallbackContext ctx)
     {
-        ShootInput(value.isPressed);
+        move = Vector2.zero;
     }
 
-    public void OnSprint(InputValue value)
+    private void OnLookPerformed(InputAction.CallbackContext ctx)
     {
-        SprintInput(value.isPressed);
+        look = ctx.ReadValue<Vector2>();
     }
 
-
-    public void OnPrimary(InputValue value)
+    private void OnLookCanceled(InputAction.CallbackContext ctx)
     {
-        PrimaryInput(value.isPressed);
+        look = Vector2.zero;
     }
 
-    public void OnSecondary(InputValue value)
+    private void OnJumpPerformed(InputAction.CallbackContext ctx)
     {
-        SecondaryInput(value.isPressed);
+        jump = true;
     }
 
-    public void OnAim(InputValue value)
+    private void OnJumpCanceled(InputAction.CallbackContext ctx)
     {
-        AimInput(value.isPressed);
+        jump = false;
     }
 
-    public void MoveInput(Vector2 newMoveDirection)
+    private void OnShootPerformed(InputAction.CallbackContext ctx)
     {
-        move = newMoveDirection;
-    } 
-
-    public void LookInput(Vector2 newLookDirection)
-    {
-        look = newLookDirection;
+        shoot = true;
     }
 
-    public void JumpInput(bool newJumpState)
+    private void OnShootCanceled(InputAction.CallbackContext ctx)
     {
-        jump = newJumpState;
-    }
-    public void ShootInput(bool newShootState)
-    {
-        shoot = newShootState;
+        shoot = false;
     }
 
-    public void SprintInput(bool newSprintState)
+    private void OnSprintPerformed(InputAction.CallbackContext ctx)
     {
-        sprint = newSprintState;
-    }
-    public void AimInput(bool newAimState)
-    {
-        aim = newAimState;
+        sprint = true;
     }
 
-    public void PrimaryInput(bool newPrimaryState)
+    private void OnSprintCanceled(InputAction.CallbackContext ctx)
     {
-        primary = newPrimaryState;
+        sprint = false;
     }
-    public void SecondaryInput(bool newSecondaryState)
+
+    private void OnPrimaryWeaponPerformed(InputAction.CallbackContext ctx)
     {
-        secondary = newSecondaryState;
+        primary = !primary;
     }
+
+    private void OnSecondaryWeaponPerformed(InputAction.CallbackContext ctx)
+    {
+        secondary = !secondary;
+    }
+
+    #endregion
     private void OnApplicationFocus(bool hasFocus)
     {
         SetCursorState(cursorLocked);
