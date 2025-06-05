@@ -47,6 +47,7 @@ public class PlayerInputManager : NetworkBehaviour
         SprintInput(value.isPressed);
     }
 
+
     public void OnPrimary(InputValue value)
     {
         PrimaryInput(value.isPressed);
@@ -65,7 +66,6 @@ public class PlayerInputManager : NetworkBehaviour
     public void MoveInput(Vector2 newMoveDirection)
     {
         move = newMoveDirection;
-        Debug.Log(GetComponent<NetworkObject>().NetworkObjectId.ToString() + move);
     } 
 
     public void LookInput(Vector2 newLookDirection)

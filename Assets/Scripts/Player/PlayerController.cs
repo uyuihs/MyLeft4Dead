@@ -92,7 +92,6 @@ public class PlayerController : NetworkBehaviour
             if (rotateOnMove)
             {
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
 
 
@@ -101,19 +100,25 @@ public class PlayerController : NetworkBehaviour
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
 
-        // Debug.Log(targetDirection.normalized * (speed * Time.deltaTime) +
-        //                     new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
-
-        Debug.Log(speed);
-
         // move the player
-        characterController.Move(targetDirection.normalized * (speed * Time.deltaTime) +
-                            new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
 
-        animator.SetFloat("moveSpeed", animationBlend);
-
+        characterController.Move(targetDirection.normalized * (speed * Time.deltaTime)+
+                    new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+        PlayAnimationOnServerRpc(animationBlend);
     }
 
+    [ServerRpc]
+    private void PlayAnimationOnServerRpc(float animationBlend)
+    {
+        PlayeAnimationOnClientRpc(animationBlend);
+    }
+
+    [ClientRpc]
+    private void PlayeAnimationOnClientRpc(float animationBlend)
+    {
+        animator.SetFloat("moveSpeed", animationBlend);
+        
+    }
     private void Rotate()
     {
         if (input.look.sqrMagnitude >= eps)
@@ -135,11 +140,17 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if(IsOwner){ Move(); }
+        if(IsOwner)
+        { 
+            Move(); 
+        }
     }
 
     private void LateUpdate()
     {
-        if (IsOwner) { Rotate(); }
+        if (IsOwner) 
+        {
+            Rotate();
+        }
     }
 }

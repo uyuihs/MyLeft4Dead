@@ -1953,6 +1953,7 @@ GameObject:
   - component: {fileID: 2072209341179527162}
   - component: {fileID: 1146263438668365643}
   - component: {fileID: 2970929155922808700}
+  - component: {fileID: 2757911316628097745}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -1991,7 +1992,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 429436465ee995e9c8ede05f0523d2cd, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2127,6 +2128,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: 0.13
+  SpeedChangeRate: 10
+--- !u!114 &2757911316628097745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7191376370365979586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eaa8b30374771ca4b1937e074c7756d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &7191394891658156916
 GameObject:
   m_ObjectHideFlags: 0
