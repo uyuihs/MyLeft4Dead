@@ -68,7 +68,7 @@ public class PlayerController : NetworkBehaviour
                 currentHorizontalSpeed > targetSpeed + speedOffset)
         {
             speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed,
-                Time.deltaTime * SpeedChangeRate);
+                Time.fixedDeltaTime * SpeedChangeRate);
 
             speed = Mathf.Round(speed * 1000f) / 1000f;
         }
@@ -76,7 +76,7 @@ public class PlayerController : NetworkBehaviour
         {
             speed = targetSpeed;
         }
-        animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+        animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.fixedDeltaTime * SpeedChangeRate);
         if (animationBlend < 0.01f) animationBlend = 0f;
 
 
@@ -102,9 +102,10 @@ public class PlayerController : NetworkBehaviour
 
         // move the player
 
-        characterController.Move(targetDirection.normalized * (speed * Time.deltaTime)+
+        characterController.Move(targetDirection.normalized * (speed * Time.deltaTime) +
                     new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
         PlayAnimationOnServerRpc(animationBlend);
+        //  animator.SetFloat("moveSpeed", animationBlend);
     }
 
     [ServerRpc]
